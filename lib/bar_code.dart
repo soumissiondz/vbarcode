@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
-import 'package:flutter_barcode/barcode/model/barcode.dart';
-import 'package:flutter_barcode/barcode/presenter/barcode_paint.dart';
-import 'package:codebb/bar_code.dart';
+// import 'package:flutter_barcode/barcode/model/barcode.dart';
+// import 'package:flutter_barcode/barcode/presenter/barcode_paint.dart';
+// import 'package:codebb/bar_code.dart';
+import "package:syncfusion_flutter_barcodes/barcodes.dart";
 
 class Bar_code extends StatefulWidget {
   const Bar_code({super.key});
@@ -15,7 +16,7 @@ class _Bar_codeState extends State<Bar_code> {
   TextEditingController haut = TextEditingController();
   TextEditingController larg = TextEditingController();
   TextEditingController valeur = TextEditingController();
-  double hhaut = 200;
+  double hhaut = 150;
   double llarg = 300;
   int nnbr = 1;
   var vbarcode;
@@ -34,7 +35,7 @@ class _Bar_codeState extends State<Bar_code> {
     print(vbarcode);
     vvaleur = valeur.text;
     print(vvaleur);
-    vbarcode = Barcode.jan(valeur.text);
+    //vbarcode = Barcode.jan(valeur.text);
     print(vbarcode);
   }
 
@@ -111,21 +112,26 @@ class _Bar_codeState extends State<Bar_code> {
         ),
         Expanded(
           child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: llarg),
-            itemCount: nnbr,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: llarg, childAspectRatio: llarg / hhaut),
+              itemCount: nnbr,
+              itemBuilder: (context, index) => SfBarcodeGenerator(
+                    value: vvaleur,
+                    symbology: Code128A(),
+                    showValue: true,
+                    // textStyle: TextStyle(fontSize: hhaut),
+                  )
+              //  BarcodePaint(
+              //   // or Barcode.nw7("<...>")
 
-            itemBuilder: (context, index) => BarcodePaint(
-              // or Barcode.nw7("<...>")
-
-              Barcode.jan(vvaleur!),
-              size: Size(hhaut, llarg),
-            ),
-            // Container(
-            //     alignment: Alignment.center,
-            //     padding: const EdgeInsets.all(8),
-            //     child: const Text('4011200296908')),
-          ),
+              //   Barcode.jan(vvaleur!),
+              //   size: Size(hhaut, llarg),
+              // ),
+              // Container(
+              //     alignment: Alignment.center,
+              //     padding: const EdgeInsets.all(8),
+              //     child: const Text('4011200296908')),
+              ),
         )
       ]),
     );
